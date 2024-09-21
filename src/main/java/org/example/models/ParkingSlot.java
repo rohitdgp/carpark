@@ -6,16 +6,25 @@ import javax.persistence.*;
 public class ParkingSlot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private int slotNumber;
+    private int floorNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "parking_lot_id")
+    private ParkingLot parkingLot;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_registration_number", referencedColumnName = "registrationNumber")
     private Car parkedCar;
 
-    public ParkingSlot(){}
-    public ParkingSlot(int slotNumber) {
+    public ParkingSlot() {}
+
+    public ParkingSlot(int slotNumber, int floorNumber, ParkingLot parkingLot) {
         this.slotNumber = slotNumber;
-        this.parkedCar = null;
+        this.floorNumber = floorNumber;
+        this.parkingLot = parkingLot;
     }
 
     public int getSlotNumber() {
